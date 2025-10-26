@@ -1,9 +1,14 @@
 # api/index.py
 
-# Импортируем наше приложение (app) из основного файла
+import os
+import sys
+
+# Добавляем корневую папку в PYTHONPATH, чтобы Python мог найти mini_app_backend
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Теперь импорт гарантированно найдет файл в корне
 from mini_app_backend import app
-# Импортируем Mangum для обертки
 from mangum import Mangum
 
-# Создаем обработчик, который будет использовать Vercel
+# Создаем обработчик
 handler = Mangum(app)
