@@ -1,0 +1,11 @@
+[tool.poetry]
+name = "toilet-coin-api"
+version = "0.1.0"
+description = "FastAPI backend"
+
+[tool.poetry.dependencies]
+python = "3.9"  # <-- ФИКСАЦИЯ ВЕРСИИ
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
