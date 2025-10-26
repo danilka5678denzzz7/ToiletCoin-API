@@ -1,0 +1,9 @@
+# api/index.py
+
+# Импортируем наше приложение (app) из основного файла
+from mini_app_backend import app
+# Импортируем Mangum для обертки
+from mangum import Mangum
+
+# Создаем обработчик, который будет использовать Vercel
+handler = Mangum(app)
