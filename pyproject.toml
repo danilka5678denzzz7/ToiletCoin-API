@@ -4,7 +4,7 @@ version = "0.1.0"
 description = "FastAPI backend"
 
 [tool.poetry.dependencies]
-python = "3.9"  # <-- ФИКСАЦИЯ ВЕРСИИ
+python = "3.9"  # <-- Фиксация версии
 
 [build-system]
 requires = ["poetry-core"]
