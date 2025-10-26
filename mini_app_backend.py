@@ -4,7 +4,7 @@ import os
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from mangum import Mangum # <--- Mangum для Vercel
+from mangum import Mangum # <-- Используется для запуска на Vercel
 
 # --- КОНФИГУРАЦИЯ ИГРЫ ---
 ENERGY_REGEN_RATE = 5      
@@ -20,11 +20,11 @@ class Boosts:
     COIL_ENERGY_BONUS = 500 
 
 # --- ХРАНИЛИЩЕ ДАННЫХ В ПАМЯТИ ---
-# ВНИМАНИЕ: На Vercel эти данные будут сбрасываться!
+# ВНИМАНИЕ: Данные будут храниться только в памяти и могут сбрасываться!
 users_data = {}
 
-# --- ИГРОВАЯ ЛОГИКА (УПРОЩЕННАЯ) ---
-# ФУНКЦИИ load_user_data() и save_user_data() УДАЛЕНЫ!
+# --- ИГРОВАЯ ЛОГИКА ---
+# Функции load_user_data() и save_user_data() УДАЛЕНЫ!
 def get_user_data(user_id):
     if user_id not in users_data:
         users_data[user_id] = {
@@ -71,13 +71,12 @@ app.add_middleware(
 class TapRequest(BaseModel):
     pass 
 
-# БЛОК @app.on_event("startup") УДАЛЕН, так как он вызывал load_user_data()
+# Блок @app.on_event("startup") УДАЛЕН.
 
 @app.get("/api/data/{user_id}")
 async def get_user_data_api(user_id: int):
     user_data = get_user_data(user_id)
     calculate_current_energy(user_data)
-    # save_user_data() УДАЛЕН
     
     return {
         "rolls": int(user_data['rolls']), 
@@ -99,18 +98,6 @@ async def process_tap_api(user_id: int, request_data: TapRequest):
         
         user_data['last_tap_time'] = time.time() 
             
-        # save_user_data() УДАЛЕН
-        
         return {
             "success": True, 
-            "rolls": int(user_data['rolls']), 
-            "energy": int(user_data['energy']),
-            "tapped_amount": user_data['rolls_per_tap']
-        }
-    else:
-        user_data['last_tap_time'] = time.time()
-        # save_user_data() УДАЛЕН
-        raise HTTPException(status_code=400, detail="Not enough energy")
-
-# --- ЗАПУСК ДЛЯ VERCEL ---
-handler = Mangum(app)
+            "rolls": int(user_data
